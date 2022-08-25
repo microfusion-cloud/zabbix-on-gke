@@ -58,4 +58,9 @@ postgres=# \q
 postgres@postgresql:~$ exit
 logout
 ```
-
+## 建立 Zabbix Server
+```
+gcloud compute instances create zabbix --zone=asia-east1-c \
+   --machine-type=e2-medium --network-interface=private-network-ip=10.140.0.101 \
+   --image-family=cos-97-lts --image-project=cos-cloud
+```
