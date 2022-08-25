@@ -1,5 +1,8 @@
 # 第一階段 - 在 GCP 建立 Zabbix service
 
+## Architecture
+[img]https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/phase1/architecture.png
+
 ## 目標
 * 在 GCP 建立簡單的 Zabbix 監控服務
 * 快速熟悉 Docker 指令
@@ -14,6 +17,7 @@
 ### Container
 * Zabbix
 * PostgreSQL 
+
 
 ---
 
