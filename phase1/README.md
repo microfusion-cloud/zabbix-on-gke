@@ -1,7 +1,7 @@
 # 第一階段 - 在 GCP 建立 Zabbix service
 
 ## Architecture
-[img]https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/phase1/architecture.png
+![image](https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/phase1/architecture.png)
 
 ## 目標
 * 在 GCP 建立簡單的 Zabbix 監控服務
@@ -30,7 +30,7 @@ gcloud compute instances create postgresql --zone=asia-east1-c \
    --image-family=ubuntu-1804-lts --image-project=ubuntu-os-cloud   
 ```
 
-### 安裝 PostgreSQL
+### 安裝設置 PostgreSQL
 
 1. SSH 進入機器後，安裝 PostgreSQL
 ```
@@ -44,7 +44,7 @@ sudo systemctl start postgresql.service
 ```
 sudo -i -u postgres
 ```
-1. 進入資料庫
+3. 進入資料庫
 ```
 psql
 ```
@@ -98,3 +98,8 @@ docker run --name zabbix-web-nginx-pgsql -t \
     --restart unless-stopped \
     -d zabbix/zabbix-web-nginx-pgsql:alpine-6.0-latest
 ```
+
+## 設定 TCP Load Balancer 接收監控資料 (TODO)
+
+
+## 設定 Global Load Balancer 開放管理介面 (TODO)
