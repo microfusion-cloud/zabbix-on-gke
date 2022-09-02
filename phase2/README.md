@@ -1,5 +1,9 @@
 # Phase 2 - Replace Storage Layer to Google Managed Service
 
+## Architecture
+![image](https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/phase2/architecture.png)
+
+
 ## Objective
 * Replace PostgreSQL on GCE to Cloud SQL for PostgreSQL  
 
