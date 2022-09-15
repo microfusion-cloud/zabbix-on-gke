@@ -17,14 +17,12 @@ spec:
         image: zabbix/zabbix-server-pgsql:alpine-6.0-latest
         env:
          - name: DB_SERVER_HOST
-           value: "10.28.108.6"
+           value: 10.91.128.94
          - name: POSTGRES_USER
            value: "zabbix"
          - name: POSTGRES_PASSWORD
-           value: "zabbix"
+           value: "password"
          - name: POSTGRES_DB
            value: "zabbix"
-         - name: ZBX_ENABLE_SNMP_TRAPS
-           value: "true"
         ports:
         - containerPort: 10051
