@@ -99,6 +99,16 @@ kubectl apply -f zabbix-frontend-service.yaml && \
 kubectl apply -f ingress.yaml
 ```
 
+取得管理介面 IP
+```
+kubectl get ingress zabbix-frontend-ingress
+```
+
+在瀏覽器輸入該 IP 並填入預設值
+- Username : Admin
+- Password : zabbix
+
+
 ## 清理全部資源 (Deployment,Service and Ingress)
 ```bash
 kubectl delete -f postgres-deployment.yaml && \
