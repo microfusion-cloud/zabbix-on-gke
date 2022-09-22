@@ -41,7 +41,7 @@ gcloud container clusters get-credentials zabbix-cluster --region asia-east1 --p
 
 部署容器 [PostgreSQL](https://hub.docker.com/_/postgres/) 
 
-postgres-pv.yaml
+postgres-pv.yaml: 定義儲存空間 (PersistentVolume)，由於儲存類別 `standard-rwo` 的綁定模式為 `WaitForFirstConsumer`，所以在任何 Pod 使用此 PV 前，不會真的建立 PV，將會處於 `Pending` 狀態。
 
 
 ```bash
