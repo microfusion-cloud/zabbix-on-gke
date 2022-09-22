@@ -17,7 +17,7 @@ spec:
         image: zabbix/zabbix-web-nginx-pgsql:alpine-6.0-latest
         env:
          - name: DB_SERVER_HOST
-           value: 10.91.128.94
+           value: ${DB_SERVER_HOST}
          - name: POSTGRES_USER
            value: "zabbix"
          - name: POSTGRES_PASSWORD

@@ -98,3 +98,15 @@ kubectl apply -f zabbix-frontend-deployment.yaml && \
 kubectl apply -f zabbix-frontend-service.yaml && \
 kubectl apply -f ingress.yaml
 ```
+
+## 清理全部資源 (Deployment,Service and Ingress)
+```bash
+kubectl delete -f postgres-deployment.yaml && \
+kubectl delete -f postgres-pv.yaml && \
+kubectl delete -f postgres-service.yaml && \
+kubectl delete -f zabbix-server-deployment.yaml && \
+kubectl delete -f zabbix-server-service.yaml && \
+kubectl delete -f zabbix-frontend-deployment.yaml && \
+kubectl delete -f zabbix-frontend-service.yaml && \
+kubectl delete -f ingress.yaml
+```
