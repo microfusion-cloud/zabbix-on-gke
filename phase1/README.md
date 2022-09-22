@@ -40,7 +40,9 @@ gcloud container clusters get-credentials zabbix-cluster --region asia-east1 --p
 ## 2.部署 PostgreSQL
 
 部署容器 [PostgreSQL](https://hub.docker.com/_/postgres/) 
-TODO: 需要說明
+
+postgres-pv.yaml
+
 
 ```bash
 kubectl apply -f postgres-pv.yaml
