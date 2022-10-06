@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zabbix-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix-server
+  template:
+    metadata:
+      labels:
+        app: zabbix-server
+    spec:
+      containers:
+      - name: zabbix-server
+        image: zabbix/zabbix-server-pgsql:alpine-6.0-latest
+        env:
+         - name: DB_SERVER_HOST
+           value: ${DB_SERVER_HOST}
+         - name: POSTGRES_USER
+           value: "zabbix"
+         - name: POSTGRES_PASSWORD
+           value: "password"
+         - name: POSTGRES_DB
+           value: "zabbix"
+        ports:
+        - containerPort: 10051
