@@ -12,6 +12,7 @@ spec:
       labels:
         app: zabbix-frontend
     spec:
+      serviceAccountName: ksa-cloudsqlproxy      
       containers:
       - name: zabbix-frontend
         image: zabbix/zabbix-web-nginx-pgsql:alpine-6.0-latest

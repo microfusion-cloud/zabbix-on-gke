@@ -35,6 +35,7 @@ git clone git@github.com:microfusion-cloud/zabbix-on-gke.git && cd zabbix-on-gke
 ```bash
 gcloud container clusters create-auto "zabbix-cluster" \
    --region "asia-east1" \
+   --project $GOOGLE_CLOUD_PROJECT
 
 gcloud container clusters get-credentials zabbix-cluster \
   --region asia-east1 \
