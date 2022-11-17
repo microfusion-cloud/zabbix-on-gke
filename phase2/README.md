@@ -119,6 +119,9 @@ KSA 將會模擬 GSA 所擁有的 IAM 權限與 Google Cloud 溝通，好處是�
 
 ref: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#authenticating_to
 
+![image](https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/assets/workload_identity.png)
+
+
 建立 KSA
 ```bash
 kubectl create serviceaccount ksa-cloudsqlproxy
