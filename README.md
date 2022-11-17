@@ -3,4 +3,5 @@
 ref: https://cloud.google.com/kubernetes-engine/docs/how-to/standalone-neg
 
 ## Objective
-* 不使用 Google Cloud 原生 Ingress (GCLB)
+* 不使用 Google Cloud 原生 Ingress (GCLB) 暴露服務
+* 獨立建立 GCLB 並連接到 K8s Service
