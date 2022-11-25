@@ -42,6 +42,8 @@ kubeconfig entry generated for zabbix-cluster.
 ## 部署 Google Cloud Load Balancer
 
 將建立以下資源：
+
+
 ![image](https://cloud.google.com/static/kubernetes-engine/images/sneg7.svg)
 
 增加防火牆規則：
