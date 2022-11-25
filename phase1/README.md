@@ -1,7 +1,7 @@
 # 第一階段 - 在 GCP 建立 Zabbix service
 
 ## Architecture
-![image](https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/phase1/architecture.png)
+![image](https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/assets/phase1.png)
 
 ## 目標
 * 在 GCP 建立簡單的 Zabbix 監控服務

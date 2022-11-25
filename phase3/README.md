@@ -2,6 +2,10 @@
 
 ref: https://cloud.google.com/kubernetes-engine/docs/how-to/standalone-neg
 
+## Architecture
+![image](https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/assets/phase3.png)
+
+
 ## Objective
 * 不使用 Google Cloud 原生 Ingress (GCLB) 暴露服務
 * 獨立建立 GCLB 並連接到 K8s Service
@@ -35,9 +39,9 @@ kubeconfig entry generated for zabbix-cluster.
 
 ```
 
+後續部署請參考 Phase 2. Step 2-4，請注意不執行 step 5.
+ref: https://github.com/microfusion-cloud/zabbix-on-gke/tree/main/phase2#2%E5%BB%BA%E7%AB%8B-cloud-sql-for-postgresql
 
-
-(TODO:zabbix 部署)
 
 ## 部署 Google Cloud Load Balancer
 

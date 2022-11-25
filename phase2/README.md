@@ -1,7 +1,7 @@
 # Phase 2 - 使用代管式資料庫 CloudSQL 替代 PostgreSQL / 保護 Secret 
 
 ## Architecture
-![image](https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/phase2/architecture.png)
+![image](https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/assets/phase2.png)
 
 
 ## Objective
@@ -204,11 +204,13 @@ kubectl apply -f zabbix-server-service.yaml
 ```bash
 kubectl apply -f zabbix-frontend-deployment.yaml && \
 kubectl apply -f zabbix-frontend-service.yaml && \
-kubectl apply -f ingress.yaml
 ```
 
-取得管理介面 IP
+### 5.部署 Ingress (L7 LB)
+
+建立並取得管理介面 IP
 ```
+kubectl apply -f ingress.yaml
 kubectl get ingress zabbix-frontend-ingress
 ```
 
