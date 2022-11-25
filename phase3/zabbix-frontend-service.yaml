@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zabbix-frontend
+  annotations:
+    cloud.google.com/neg: '{"exposed_ports": {"80":{"name": "zabbix-frontend-neg"}}}'
+spec:
+  type: ClusterIP
+  selector:
+    app: zabbix-frontend
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
