@@ -55,7 +55,7 @@ gcloud compute firewall-rules create fw-allow-health-check-and-proxy \
    --direction=ingress \
    --target-tags=gke-zabbix-node \
    --source-ranges=130.211.0.0/22,35.191.0.0/16 \
-   --rules=tcp:9376
+   --rules=tcp:80
 ```
 
 建立 global IP
@@ -66,6 +66,7 @@ gcloud compute addresses create hostname-server-vip \
 
 GCLB_IP=$(gcloud compute addresses describe hostname-server-vip --global --format="get(address)")
 ```
+建立健康檢查雨後端服務
 
 ```
 gcloud compute health-checks create http http-basic-check \
@@ -90,7 +91,7 @@ gcloud compute forwarding-rules create http-forwarding-rule \
 
 ```
 
-將 LB 加入後端 NEG 服務
+將後端 NEG 服務 加入 LB
 ```
 gcloud compute backend-services add-backend my-bes \
     --global \
