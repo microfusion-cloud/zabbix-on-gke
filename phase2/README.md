@@ -7,7 +7,7 @@
 ## Objective
 * Replace PostgreSQL on GCE to Cloud SQL for PostgreSQL
 * 將需要隱藏的機敏資訊加密
-* 
+
 
 ## Components
 
