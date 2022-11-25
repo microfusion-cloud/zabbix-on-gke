@@ -1,15 +1,13 @@
-# Phase 3 - 使用 Standalone NEG 可以自行控制 Ingress 的行為 
-
-ref: https://cloud.google.com/kubernetes-engine/docs/how-to/standalone-neg
+# Phase 3 - 自建 GCLB 取代 GKE Ingress 
 
 ## Architecture
 ![image](https://github.com/microfusion-cloud/zabbix-on-gke/blob/main/assets/phase3.png)
 
-
 ## Objective
-* 不使用 Google Cloud 原生 Ingress (GCLB) 暴露服務
-* 獨立建立 GCLB 並連接到 K8s Service
+* 不使用 GKE Ingress 暴露 L7 服務
+* 改為建立 GCLB 並透過 Standalone NEG 連接到 K8s Service
 
+更多資訊可以參考: https://cloud.google.com/kubernetes-engine/docs/how-to/standalone-neg
 
 ## Step
 ### 0. 前置步驟
@@ -109,4 +107,10 @@ gcloud compute backend-services add-backend my-bes \
     --network-endpoint-group-zone=asia-east1-c \
     --balancing-mode RATE --max-rate-per-endpoint 5
 
+```
+
+測試: 
+
+```bash
+echo $GCLB_IP
 ```
