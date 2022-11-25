@@ -55,7 +55,7 @@ gcloud compute firewall-rules create fw-allow-health-check-and-proxy \
    --direction=ingress \
    --target-tags=gke-zabbix-node \
    --source-ranges=130.211.0.0/22,35.191.0.0/16 \
-   --rules=tcp:80
+   --rules=tcp:8080
 ```
 
 建立 global IP
