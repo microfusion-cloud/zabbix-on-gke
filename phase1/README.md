@@ -23,7 +23,7 @@
 - 下載此範例程式並進入 phase1
 
 ```bash
-git clone git@github.com:microfusion-cloud/zabbix-on-gke.git && cd zabbix-on-gke/phase1
+git clone https://github.com/microfusion-cloud/zabbix-on-gke.git && cd zabbix-on-gke/phase1
 ```
 
 

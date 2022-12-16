@@ -15,7 +15,7 @@
 - 下載此範例程式並進入 phase3
 
 ```bash
-git clone git@github.com:microfusion-cloud/zabbix-on-gke.git && cd zabbix-on-gke/phase3
+git clone https://github.com/microfusion-cloud/zabbix-on-gke.git && cd zabbix-on-gke/phase3
 ```
 ### 1.建立 GKE 叢集
 
