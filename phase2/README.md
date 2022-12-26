@@ -174,7 +174,7 @@ Before:
 ```
 After:
 ```base
-- "-instances=calm-photon-320710:asia-east1:zabbix-instance>=tcp:5432"
+- "-instances=calm-photon-320710:asia-east1:zabbix-instance=tcp:5432"
 ```
 #### Deployment 使用 KSA
 可以觀察到 `zabbix-server-deployment.yaml` line 15:
