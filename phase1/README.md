@@ -108,6 +108,7 @@ kubectl get ingress zabbix-frontend-ingress
 - Username : Admin
 - Password : zabbix
 
+## TODO: 補上 Agent 填入 Health check ##
 
 ## 清理全部資源 (Deployment,Service and Ingress)
 ```bash

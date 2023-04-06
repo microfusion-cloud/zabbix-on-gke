@@ -68,7 +68,7 @@ gcloud compute addresses create hostname-server-vip \
 
 GCLB_IP=$(gcloud compute addresses describe hostname-server-vip --global --format="get(address)")
 ```
-建立健康檢查雨後端服務
+建立健康檢查與後端服務
 
 ```
 gcloud compute health-checks create http http-basic-check \
@@ -114,3 +114,9 @@ gcloud compute backend-services add-backend my-bes \
 ```bash
 echo $GCLB_IP
 ```
+
+在瀏覽器輸入該 IP 並填入預設值
+- Username : Admin
+- Password : zabbix
+
+## TODO: 補上 Agent 填入 Health check ##
