@@ -13,16 +13,23 @@ spec:
         app: zabbix-server
     spec:
       containers:
-      - name: zabbix-server
-        image: zabbix/zabbix-server-pgsql:alpine-6.0-latest
-        env:
-         - name: DB_SERVER_HOST
-           value: ${DB_SERVER_HOST}
-         - name: POSTGRES_USER
-           value: "zabbix"
-         - name: POSTGRES_PASSWORD
-           value: "password"
-         - name: POSTGRES_DB
-           value: "zabbix"
-        ports:
-        - containerPort: 10051
+        - name: zabbix-server
+          image: zabbix/zabbix-server-pgsql:alpine-6.0-latest
+          env:
+            - name: DB_SERVER_HOST
+              value: {DB_SERVER_HOST}
+            - name: POSTGRES_USER
+              value: "zabbix"
+            - name: POSTGRES_PASSWORD
+              value: "password"
+            - name: POSTGRES_DB
+              value: "zabbix"
+          ports:
+            - containerPort: 10051
+        - name: zabbix-agent
+          image: zabbix/zabbix-agent2:alpine-6.0-latest
+          env:
+            - name: ZBX_HOSTNAME
+              value: "zabbix-server"
+            - name: ZBX_SERVER_HOST
+              value: status.podIP
