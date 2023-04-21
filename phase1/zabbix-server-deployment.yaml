@@ -24,6 +24,8 @@ spec:
               value: "password"
             - name: POSTGRES_DB
               value: "zabbix"
+            - name: ZBX_ENABLE_SNMP_TRAPS
+              value: "true"
           ports:
             - containerPort: 10051
         - name: zabbix-agent
@@ -33,3 +35,14 @@ spec:
               value: "zabbix-server"
             - name: ZBX_SERVER_HOST
               value: status.podIP
+        - name: zabbix-snmptraps
+          image: zabbix-snmptraps:alpine-6.0-latest
+          ports:
+            - containerPort: 1162
+          volumeMounts:
+            - mountPath: /var/lib/zabbix/snmptraps
+              name: zabbix-pv
+      volumes:
+        - name: zabbix-pv
+          persistentVolumeClaim:
+            claimName: zabbix-pvc
