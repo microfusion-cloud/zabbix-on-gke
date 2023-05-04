@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: postgresql-pv
+  name: postgres-pvc
 spec:
   storageClassName: standard-rwo
   accessModes:
