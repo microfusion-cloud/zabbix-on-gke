@@ -35,4 +35,4 @@ spec:
       volumes:
         - name: postgredb
           persistentVolumeClaim:
-            claimName: postgresql-pvc
+            claimName: postgres-pvc

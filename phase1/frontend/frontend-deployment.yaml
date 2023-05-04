@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zabbix-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix-frontend
+  template:
+    metadata:
+      labels:
+        app: zabbix-frontend
+    spec:
+      containers:
+        - name: zabbix-frontend
+          image: zabbix/zabbix-web-nginx-pgsql:alpine-6.0-latest
+          env:
+            - name: DB_SERVER_HOST
+              value: postgres.default.svc.cluster.local
+            - name: POSTGRES_USER
+              value: "zabbix"
+            - name: POSTGRES_PASSWORD
+              value: "password"
+            - name: POSTGRES_DB
+              value: "zabbix"
+          ports:
+            - containerPort: 8080

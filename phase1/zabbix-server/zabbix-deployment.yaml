@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
         - name: zabbix-server
-          image: zabbix/zabbix-server-pgsql:alpine-6.0-latest
+          image: zabbix/zabbix-server-pgsql:alpine-6.0-latest      
           env:
             - name: DB_SERVER_HOST
-              value: {DB_SERVER_HOST}
+              value: postgres.default.svc.cluster.local
             - name: POSTGRES_USER
               value: "zabbix"
             - name: POSTGRES_PASSWORD
@@ -26,6 +26,9 @@ spec:
               value: "zabbix"
             - name: ZBX_ENABLE_SNMP_TRAPS
               value: "true"
+          volumeMounts:
+            - mountPath: /var/lib/zabbix/snmptraps
+              name: volume-snmp
           ports:
             - containerPort: 10051
         - name: zabbix-agent
@@ -34,15 +37,15 @@ spec:
             - name: ZBX_HOSTNAME
               value: "zabbix-server"
             - name: ZBX_SERVER_HOST
-              value: status.podIP
+              value: localhost
         - name: zabbix-snmptraps
-          image: zabbix-snmptraps:alpine-6.0-latest
+          image: zabbix/zabbix-snmptraps:alpine-6.0-latest
           ports:
             - containerPort: 1162
           volumeMounts:
             - mountPath: /var/lib/zabbix/snmptraps
-              name: zabbix-pv
+              name: volume-snmp
       volumes:
-        - name: zabbix-pv
+        - name: volume-snmp
           persistentVolumeClaim:
-            claimName: zabbix-pvc
+            claimName: pvc-snmp
