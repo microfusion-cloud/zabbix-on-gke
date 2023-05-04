@@ -10,8 +10,8 @@ spec:
     - ReadWriteOnce
   claimRef:
     namespace: default
-    name: pvc-snmp
+    name: pvc-snmp-zabbix-server-0 #pvc-snmp
   csi:
     driver: pd.csi.storage.gke.io
-    volumeHandle: projects/gcpsa-sandbox/regions/asia-east1/disks/pvc-snmp
+    volumeHandle: projects/[PROJECT]/regions/[REGION]/disks/[DISK]
     fsType: ext4

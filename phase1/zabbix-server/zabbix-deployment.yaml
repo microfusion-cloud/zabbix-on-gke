@@ -1,8 +1,9 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: zabbix-server
 spec:
+  serviceName: zabbix-server
   replicas: 1
   selector:
     matchLabels:
@@ -28,7 +29,7 @@ spec:
               value: "true"
           volumeMounts:
             - mountPath: /var/lib/zabbix/snmptraps
-              name: volume-snmp
+              name: pvc-snmp
           ports:
             - containerPort: 10051
         - name: zabbix-agent
@@ -44,8 +45,12 @@ spec:
             - containerPort: 1162
           volumeMounts:
             - mountPath: /var/lib/zabbix/snmptraps
-              name: volume-snmp
-      volumes:
-        - name: volume-snmp
-          persistentVolumeClaim:
-            claimName: pvc-snmp
+              name: pvc-snmp
+  volumeClaimTemplates:
+  - metadata:
+      name: pvc-snmp
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 30Gi

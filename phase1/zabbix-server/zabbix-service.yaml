@@ -7,7 +7,7 @@ spec:
   selector:
     app: zabbix-server
   ports:
-  - name: expose-data
+  - name: expose-monitor
     protocol: TCP
     port: 10051
     targetPort: 10051
