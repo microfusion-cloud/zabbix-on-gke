@@ -69,7 +69,6 @@ tree zabbix-server
 zabbix-server
 ├── zabbix-deployment.yaml
 ├── zabbix-pv.yaml
-├── zabbix-pvc.yaml
 └── zabbix-service.yaml
 ```
 
@@ -86,7 +85,7 @@ DISK_NAME=pvc-snmp2
 
 gcloud compute disks create $DISK_NAME --project=$GOOGLE_CLOUD_PROJECT \
   --type=pd-balanced --size=30GB --region=$REGION \
-  --replica-zones=projects/$GOOGLE_CLOUD_PROJECT/zones/$REGION-c,projects/gcpsa-sandbox/zones/$REGION-b
+  --replica-zones=projects/$GOOGLE_CLOUD_PROJECT/zones/$REGION-c,projects/$GOOGLE_CLOUD_PROJECT/zones/$REGION-b
 ```
 
 #### 使用 [yq](https://github.com/mikefarah/yq) 替換 pv 模板
