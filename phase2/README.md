@@ -71,10 +71,12 @@ gcloud services vpc-peerings connect \
 --project=$GOOGLE_CLOUD_PROJECT
 ```
 
-#### 使用 gcloud-cli 建立 instance
+#### 使用 gcloud-cli 建立 Cloud SQL instance 
 
 ```bash
-gcloud sql instances create zabbix-instance \
+DB_INSTANCE=zabbix-instance
+
+gcloud sql instances create $DB_INSTANCE \
   --database-version=POSTGRES_14 \
   --tier=db-g1-small \
   --storage-type=HDD \
@@ -88,24 +90,29 @@ gcloud sql instances create zabbix-instance \
 
 #### 使用 gcloud-cli 建立 Database
 ```bash
-gcloud sql databases create zabbix \
-  --instance=zabbix-instance
+DB_NAME=zabbixs
+
+gcloud sql databases create $DB_NAME \
+  --instance=$DB_INSTANCE
 ```
 
 #### 使用 gcloud-cli 建立 User/PW
 ```bash
 #自定義密碼
 DB_PASS=YOUR_PW
+DB_USER=zabbix
 
-gcloud sql users create zabbix \
-   --instance=zabbix-instance \
+gcloud sql users create $DB_USER \
+   --instance=$DB_INSTANCE \
    --password=${DB_PASS}
 ```
 #### 建立 Database secret
 
 ```bash
-kubectl create secret generic zabbix-secret \
-  --from-literal=username=zabbix \
+DB_SECRET=zabbix-secret
+
+kubectl create secret generic $DB_SECRET \
+  --from-literal=username=$DB_USER \
   --from-literal=password=${DB_PASS} \
   --from-literal=database=zabbix
 ```
@@ -233,5 +240,6 @@ kubectl get ingress zabbix-frontend-ingress
 ## 清理全部資源 (Deployment,Service and Ingress)
 ```bash
 kubectl delete -f frontend && \
-kubectl delete -f zabbix-server && 
+kubectl delete -f zabbix-server && \
+gcloud sql instances delete $DB_INSTANCE
 ```
