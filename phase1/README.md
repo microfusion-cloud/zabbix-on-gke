@@ -81,7 +81,7 @@ zabbix-server
 
 #### 建立硬碟
 ```bash
-DISK_NAME=pvc-snmp2
+DISK_NAME=pvc-snmp
 
 gcloud compute disks create $DISK_NAME --project=$GOOGLE_CLOUD_PROJECT \
   --type=pd-balanced --size=30GB --region=$REGION \

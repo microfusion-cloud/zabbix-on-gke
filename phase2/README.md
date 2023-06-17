@@ -34,16 +34,13 @@ git clone https://github.com/microfusion-cloud/zabbix-on-gke.git && cd zabbix-on
 ### 1.建立 GKE 叢集
 
 ```bash
-gcloud container clusters create-auto "zabbix-cluster" \
-   --region "asia-east1" \
-   --project $GOOGLE_CLOUD_PROJECT
+GOOGLE_CLOUD_PROJECT=gcpsa-sandbox
+REGION=asia-east1
+CLUSTER=zabbix-cluster
 
-gcloud container clusters get-credentials zabbix-cluster \
-  --region asia-east1 \
-  --project $GOOGLE_CLOUD_PROJECT
+gcloud container clusters create-auto $CLUSTER --region $REGION --project $GOOGLE_CLOUD_PROJECT
 
-Fetching cluster endpoint and auth data.
-kubeconfig entry generated for zabbix-cluster.
+gcloud container clusters get-credentials $CLUSTER --region $REGION --project $GOOGLE_CLOUD_PROJECT
 
 ```
 
@@ -152,7 +149,23 @@ kubectl annotate serviceaccount ksa-cloudsqlproxy \
 ```
 
 
-### 3.部署暴露 Zabbix server
+### 3. 監控系統 - Zabbix 
+
+#### 建立硬碟
+```bash
+DISK_NAME=pvc-snmp
+
+gcloud compute disks create $DISK_NAME --project=$GOOGLE_CLOUD_PROJECT \
+  --type=pd-balanced --size=30GB --region=$REGION \
+  --replica-zones=projects/$GOOGLE_CLOUD_PROJECT/zones/$REGION-c,projects/$GOOGLE_CLOUD_PROJECT/zones/$REGION-b
+```
+
+#### 使用 [yq](https://github.com/mikefarah/yq) 替換 pv 模板
+
+```bash
+yq -i '.spec.csi.volumeHandle="projects/'$GOOGLE_CLOUD_PROJECT'/regions/'$REGION'/disks/'$DISK_NAME'"' zabbix-server/zabbix-pv.yaml
+
+```
 
 #### 取得 postgreSQL connection name 
 規則如下：
@@ -163,7 +176,7 @@ example:
 calm-photon-320710:asia-east1:zabbix-instance
 ```
 
-#### 修改 `zabbix-server-deployment.yaml`
+#### 修改 `zabbix-server/zabbix-deployment.yaml`
 
 把 connection name 覆蓋 `zabbix-server-deployment.yaml` 的 `<INSTANCE_CONNECTION_NAME>`
 
@@ -177,40 +190,35 @@ After:
 - "-instances=calm-photon-320710:asia-east1:zabbix-instance=tcp:5432"
 ```
 #### Deployment 使用 KSA
-可以觀察到 `zabbix-server-deployment.yaml` line 15:
+可以觀察到 `zabbix-server/zabbix-deployment.yaml` line 16:
 
 ```bash
 serviceAccountName: ksa-cloudsqlproxy
 ```
 可以指定 Deployment 使用服務帳戶運行
 
-
-#### 部署 Zabbix Server
+### 部署服務
+部署 **zabbix-server** 資料夾裡所有檔案：
 ```bash
-kubectl apply -f zabbix-server-deployment.yaml
+kubectl apply -f zabbix-server
 ```
 
-#### 暴露接收監控紀錄端口
-```
-kubectl apply -f zabbix-server-service.yaml
-```
-### 4.部署 Zabbix 管理介面
+## 4. Zabbix 管理介面
 
-#### 修改 `zabbix-frontend-deployment.yaml`
+#### 修改 `frontend-deployment.yaml`
 
-把先前取得的 connection name 覆蓋 `zabbix-frontend-deployment.yaml` 的 `<INSTANCE_CONNECTION_NAME>`
+把先前取得的 *connection name* 覆蓋 `frontend/frontend-deployment.yaml` 的 `<INSTANCE_CONNECTION_NAME>`
 
-部署前端服務 
+### 部署前端服務 
+
+部署 **frontend** 資料夾裡所有檔案：
+
 ```bash
-kubectl apply -f zabbix-frontend-deployment.yaml && \
-kubectl apply -f zabbix-frontend-service.yaml && \
+kubectl apply -f frontend
 ```
 
-### 5.部署 Ingress (L7 LB)
-
-建立並取得管理介面 IP
-```
-kubectl apply -f ingress.yaml
+### 取得管理介面 IP
+```bash
 kubectl get ingress zabbix-frontend-ingress
 ```
 
@@ -221,12 +229,9 @@ kubectl get ingress zabbix-frontend-ingress
 
 ## TODO: 補上 Agent 填入 Health check ##
 
-### 清理全部資源 (Deployment,Service and Ingress)
+
+## 清理全部資源 (Deployment,Service and Ingress)
 ```bash
-kubectl delete -f postgres-service.yaml && \
-kubectl delete -f zabbix-server-deployment.yaml && \
-kubectl delete -f zabbix-server-service.yaml && \
-kubectl delete -f zabbix-frontend-deployment.yaml && \
-kubectl delete -f zabbix-frontend-service.yaml && \
-kubectl delete -f ingress.yaml
+kubectl delete -f frontend && \
+kubectl delete -f zabbix-server && 
 ```
