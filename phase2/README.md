@@ -62,7 +62,8 @@ gcloud compute addresses create google-managed-services-default \
   --global \
   --purpose=VPC_PEERING \
   --prefix-length=16 \
-  --network=projects/$GOOGLE_CLOUD_PROJECT/global/networks/default
+  --network=projects/$GOOGLE_CLOUD_PROJECT/global/networks/default \
+  --project=$GOOGLE_CLOUD_PROJECT
   
 gcloud services vpc-peerings connect \
 --service=servicenetworking.googleapis.com \
@@ -77,7 +78,7 @@ gcloud services vpc-peerings connect \
 DB_INSTANCE=zabbix-instance
 
 gcloud sql instances create $DB_INSTANCE \
-  --database-version=POSTGRES_14 \
+  --database-version=POSTGRES_15 \
   --tier=db-g1-small \
   --storage-type=HDD \
   --storage-size=10 \
@@ -85,15 +86,17 @@ gcloud sql instances create $DB_INSTANCE \
   --zone=asia-east1-a \
   --root-password=password123 \
   --no-assign-ip \
-  --network=projects/$GOOGLE_CLOUD_PROJECT/global/networks/default
+  --network=projects/$GOOGLE_CLOUD_PROJECT/global/networks/default \
+  --project=$GOOGLE_CLOUD_PROJECT
 ```
 
 #### 使用 gcloud-cli 建立 Database
 ```bash
-DB_NAME=zabbixs
+DB_NAME=zabbix
 
 gcloud sql databases create $DB_NAME \
-  --instance=$DB_INSTANCE
+  --instance=$DB_INSTANCE \
+  --project=$GOOGLE_CLOUD_PROJECT
 ```
 
 #### 使用 gcloud-cli 建立 User/PW
@@ -104,7 +107,8 @@ DB_USER=zabbix
 
 gcloud sql users create $DB_USER \
    --instance=$DB_INSTANCE \
-   --password=${DB_PASS}
+   --password=${DB_PASS} \
+   --project=$GOOGLE_CLOUD_PROJECT
 ```
 #### 建立 Database secret
 
@@ -180,7 +184,7 @@ yq -i '.spec.csi.volumeHandle="projects/'$GOOGLE_CLOUD_PROJECT'/regions/'$REGION
 {Project_ID}:{Region}:{Instance_Name}
 
 example:
-calm-photon-320710:asia-east1:zabbix-instance
+gcpsa-sandbox:asia-east1:zabbix-instance
 ```
 
 #### 修改 `zabbix-server/zabbix-deployment.yaml`
@@ -189,12 +193,12 @@ calm-photon-320710:asia-east1:zabbix-instance
 
 Before:
 ```
-# line 58:
-- "-instances=<INSTANCE_CONNECTION_NAME>=tcp:5432"
+# line 49:
+- "<INSTANCE_CONNECTION_NAME>""
 ```
 After:
 ```base
-- "-instances=calm-photon-320710:asia-east1:zabbix-instance=tcp:5432"
+- "gcpsa-sandbox:asia-east1:zabbix-instance"
 ```
 #### Deployment 使用 KSA
 可以觀察到 `zabbix-server/zabbix-deployment.yaml` line 16:
