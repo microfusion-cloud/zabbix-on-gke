@@ -191,15 +191,13 @@ gcpsa-sandbox:asia-east1:zabbix-instance
 
 把 connection name 覆蓋 `zabbix-server-deployment.yaml` 的 `<INSTANCE_CONNECTION_NAME>`
 
-Before:
+```yaml
+...
+  - --port=5432
+  # - <INSTANCE_CONNECTION_NAME>
+  - gcpsa-sandbox:asia-east1:zabbix-instance
 ```
-# line 49:
-- "<INSTANCE_CONNECTION_NAME>""
-```
-After:
-```base
-- "gcpsa-sandbox:asia-east1:zabbix-instance"
-```
+
 #### Deployment 使用 KSA
 可以觀察到 `zabbix-server/zabbix-deployment.yaml` line 16:
 
@@ -238,12 +236,9 @@ kubectl get ingress zabbix-frontend-ingress
 - Password : zabbix
 
 
-## TODO: 補上 Agent 填入 Health check ##
-
-
 ## 清理全部資源 (Deployment,Service and Ingress)
 ```bash
 kubectl delete -f frontend && \
 kubectl delete -f zabbix-server && \
-gcloud sql instances delete $DB_INSTANCE
+gcloud sql instances delete $DB_INSTANCE --project=$GOOGLE_CLOUD_PROJECT
 ```
