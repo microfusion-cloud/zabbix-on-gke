@@ -241,4 +241,7 @@ kubectl get ingress zabbix-frontend-ingress
 kubectl delete -f frontend && \
 kubectl delete -f zabbix-server && \
 gcloud sql instances delete $DB_INSTANCE --project=$GOOGLE_CLOUD_PROJECT
+
+(TODO: 刪除 IAM)
+
 ```
