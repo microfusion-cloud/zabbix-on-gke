@@ -45,9 +45,9 @@ gcloud container clusters get-credentials $CLUSTER --region $REGION --project $G
 tree database
 
 database
-├── postgres-deployment.yaml
-├── postgres-pvc.yaml
-└── postgres-service.yaml
+├── deployment.yaml
+├── pvc.yaml
+└── service.yaml
 ```
 
 部署容器 [PostgreSQL](https://hub.docker.com/_/postgres/) 
@@ -67,9 +67,9 @@ kubectl apply -f database
 ```bash
 tree zabbix-server 
 zabbix-server
-├── zabbix-deployment.yaml
-├── zabbix-pv.yaml
-└── zabbix-service.yaml
+├── deployment.yaml
+├── pv.yaml
+└── service.yaml
 ```
 
 ### 自行管理硬碟
@@ -91,7 +91,7 @@ gcloud compute disks create $DISK_NAME --project=$GOOGLE_CLOUD_PROJECT \
 #### 使用 [yq](https://github.com/mikefarah/yq) 替換 pv 模板
 
 ```bash
-yq -i '.spec.csi.volumeHandle="projects/'$GOOGLE_CLOUD_PROJECT'/regions/'$REGION'/disks/'$DISK_NAME'"' zabbix-server/zabbix-pv.yaml
+yq -i '.spec.csi.volumeHandle="projects/'$GOOGLE_CLOUD_PROJECT'/regions/'$REGION'/disks/'$DISK_NAME'"' zabbix-server/pv.yaml
 
 ```
 
@@ -106,8 +106,8 @@ kubectl apply -f zabbix-server
 ```bash
 tree frontend 
 frontend
-├── frontend-deployment.yaml
-├── frontend-service.yaml
+├── deployment.yaml
+├── service.yaml
 └── ingress.yaml
 ```
 
@@ -132,5 +132,8 @@ kubectl get ingress zabbix-frontend-ingress
 ```bash
 kubectl delete -f frontend && \
 kubectl delete -f zabbix-server && \
-kubectl delete -f database
+kubectl delete -f database \
+gcloud compute disks delete $DISK_NAME \
+ --project=$GOOGLE_CLOUD_PROJECT \
+ --region=$REGION
 ```
