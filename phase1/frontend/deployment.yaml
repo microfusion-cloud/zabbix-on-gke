@@ -16,6 +16,8 @@ spec:
         - name: zabbix-frontend
           image: zabbix/zabbix-web-nginx-pgsql:alpine-6.0-latest
           env:
+            - name: ZBX_SERVER_HOST
+              value: zabbix-server.default.svc.cluster.local
             - name: DB_SERVER_HOST
               value: postgres.default.svc.cluster.local
             - name: POSTGRES_USER
