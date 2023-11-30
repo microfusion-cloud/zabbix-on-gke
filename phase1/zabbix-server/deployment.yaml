@@ -46,9 +46,9 @@ spec:
           image: zabbix/zabbix-agent2:alpine-6.0-latest
           env:
             - name: ZBX_HOSTNAME
-              value: "zabbix-server"
+              value: zabbix-server
             - name: ZBX_SERVER_HOST
-              value: localhost
+              value: 127.0.0.1
         - name: zabbix-snmptraps
           image: zabbix/zabbix-snmptraps:alpine-6.0-latest
           ports:
