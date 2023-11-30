@@ -11,7 +11,28 @@ spec:
     protocol: TCP
     port: 10051
     targetPort: 10051
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zabbix-server-snmp
+spec:
+  type: LoadBalancer
+  selector:
+    app: zabbix-server
+  ports:
   - name: expose-snmp
     protocol: UDP
     port: 162
     targetPort: 1162
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zabbix-server
+spec:
+  ports:
+    - port: 10051
+  selector:
+    app: zabbix-server
+  type: ClusterIP
