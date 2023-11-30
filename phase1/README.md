@@ -52,9 +52,9 @@ database
 
 部署容器 [PostgreSQL](https://hub.docker.com/_/postgres/) 
 
-- postgres-pvc.yaml: 定義儲存空間 (PersistentVolumeClaim)，再動態產生 PV，由於儲存類別 `standard-rwo` 的綁定模式為 `WaitForFirstConsumer`，所以在任何 Pod 使用此 PV 前，不會真的建立 PV，將會處於 `Pending` 狀態。
-- postgres-deployment.yaml: 部署資料庫 PostgreSQL 14，已經有環境變數 - `POSTGRES_USER`, `POSTGRES_PASSWORD` 與 `PGDATA`
-- postgres-service.yaml: 暴露資料庫端口讓其他服務連線 (Port: 5432)
+- pvc.yaml: 定義儲存空間 (PersistentVolumeClaim)，再動態產生 PV，由於儲存類別 `standard-rwo` 的綁定模式為 `WaitForFirstConsumer`，所以在任何 Pod 使用此 PV 前，不會真的建立 PV，將會處於 `Pending` 狀態。
+- deployment.yaml: 部署資料庫 PostgreSQL 14，已經有環境變數 - `POSTGRES_USER`, `POSTGRES_PASSWORD` 與 `PGDATA`
+- service.yaml: 暴露資料庫端口讓其他服務連線 (Port: 5432)
 
 ### 部署服務
 部署 **database** 資料夾裡所有檔案：
