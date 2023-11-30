@@ -46,7 +46,7 @@ gcloud container clusters get-credentials $CLUSTER --region $REGION --project $G
 
 ### 2.建立 Cloud SQL for PostgreSQL
 #### Instance specs
-- DB Version : PostgreSQL 14
+- DB Version : PostgreSQL 15
 - Instance Name: zabbix-instance
 - Machine Type : db-g1-small (1 vCore , 1.7 GB Ram)
 - Storage : 10GB , HDD
@@ -174,7 +174,7 @@ gcloud compute disks create $DISK_NAME --project=$GOOGLE_CLOUD_PROJECT \
 #### 使用 [yq](https://github.com/mikefarah/yq) 替換 pv 模板
 
 ```bash
-yq -i '.spec.csi.volumeHandle="projects/'$GOOGLE_CLOUD_PROJECT'/regions/'$REGION'/disks/'$DISK_NAME'"' zabbix-server/zabbix-pv.yaml
+yq -i '.spec.csi.volumeHandle="projects/'$GOOGLE_CLOUD_PROJECT'/regions/'$REGION'/disks/'$DISK_NAME'"' zabbix-server/pv.yaml
 
 ```
 
@@ -187,7 +187,7 @@ example:
 gcpsa-sandbox:asia-east1:zabbix-instance
 ```
 
-#### 修改 `zabbix-server/zabbix-deployment.yaml`
+#### 修改 `zabbix-server/deployment.yaml`
 
 把 connection name 覆蓋 `zabbix-server-deployment.yaml` 的 `<INSTANCE_CONNECTION_NAME>`
 
@@ -214,9 +214,9 @@ kubectl apply -f zabbix-server
 
 ## 4. Zabbix 管理介面
 
-#### 修改 `frontend-deployment.yaml`
+#### 修改 `frontend/deployment.yaml`
 
-把先前取得的 *connection name* 覆蓋 `frontend/frontend-deployment.yaml` 的 `<INSTANCE_CONNECTION_NAME>`
+把先前取得的 *connection name* 覆蓋 `frontend/deployment.yaml` 的 `<INSTANCE_CONNECTION_NAME>`
 
 ### 部署前端服務 
 
