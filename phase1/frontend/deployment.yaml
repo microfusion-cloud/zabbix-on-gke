@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: zabbix-frontend
-          image: zabbix/zabbix-web-nginx-pgsql:alpine-6.0-latest
+          image: zabbix/zabbix-web-nginx-pgsql:alpine-6.4-latest
           env:
             - name: ZBX_SERVER_HOST
               value: zabbix-server.default.svc.cluster.local
