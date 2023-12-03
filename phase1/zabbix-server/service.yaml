@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: zabbix
   name: zabbix-server-nlb
 spec:
   type: LoadBalancer
@@ -15,6 +16,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: zabbix
   name: zabbix-server-snmp
 spec:
   type: LoadBalancer
@@ -29,6 +31,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: zabbix
   name: zabbix-server
 spec:
   ports:

@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: zabbix  
   name: zabbix-frontend
 spec:
   replicas: 1
@@ -17,9 +18,9 @@ spec:
           image: zabbix/zabbix-web-nginx-pgsql:alpine-6.4-latest
           env:
             - name: ZBX_SERVER_HOST
-              value: zabbix-server.default.svc.cluster.local
+              value: zabbix-server.zabbix.svc.cluster.local
             - name: DB_SERVER_HOST
-              value: postgres.default.svc.cluster.local
+              value: postgres.zabbix.svc.cluster.local
             - name: POSTGRES_USER
               value: "zabbix"
             - name: POSTGRES_PASSWORD

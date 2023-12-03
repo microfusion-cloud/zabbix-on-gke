@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  namespace: zabbix
   name: zabbix-server
 spec:
   serviceName: zabbix-server
@@ -25,10 +26,10 @@ spec:
                 - asia-east1-c
       containers:
         - name: zabbix-server
-          image: zabbix/zabbix-server-pgsql:alpine-6.0-latest      
+          image: zabbix/zabbix-server-pgsql:alpine-6.4-latest      
           env:
             - name: DB_SERVER_HOST
-              value: postgres.default.svc.cluster.local
+              value: postgres.zabbix.svc.cluster.local
             - name: POSTGRES_USER
               value: "zabbix"
             - name: POSTGRES_PASSWORD
