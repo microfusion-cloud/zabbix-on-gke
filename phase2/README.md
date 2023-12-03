@@ -43,6 +43,10 @@ gcloud container clusters create-auto $CLUSTER --region $REGION --project $GOOGL
 gcloud container clusters get-credentials $CLUSTER --region $REGION --project $GOOGLE_CLOUD_PROJECT
 
 ```
+### 1.1 建立 namespace - zabbix
+```bash
+kubectl apply -f namespace.yaml
+```
 
 ### 2.建立 Cloud SQL for PostgreSQL
 #### Instance specs
