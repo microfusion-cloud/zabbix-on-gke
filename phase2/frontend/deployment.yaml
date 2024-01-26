@@ -16,7 +16,7 @@ spec:
       serviceAccountName: ksa-cloudsqlproxy      
       containers:
       - name: zabbix-frontend
-        image: zabbix/zabbix-web-nginx-pgsql:alpine-6.4-latest
+        image: zabbix/zabbix-web-nginx-pgsql:alpine-6.0-latest
         env:
         - name: ZBX_SERVER_HOST
           value: zabbix-server.zabbix.svc.cluster.local

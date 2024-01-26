@@ -50,9 +50,9 @@ kubectl apply -f namespace.yaml
 
 ### 2.建立 Cloud SQL for PostgreSQL
 #### Instance specs
-- DB Version : PostgreSQL 15
+- DB Version : PostgreSQL 14
 - Instance Name: zabbix-instance
-- Machine Type : db-g1-small (1 vCore , 1.7 GB Ram)
+- Machine Type : db-custom-1-3840 (1 vCore , 3.7 GB Ram)
 - Storage : 10GB , HDD
 - 啟動自動增加硬碟上限
 - 單區域可用，無 Highly available
@@ -82,8 +82,8 @@ gcloud services vpc-peerings connect \
 DB_INSTANCE=zabbix-instance
 
 gcloud sql instances create $DB_INSTANCE \
-  --database-version=POSTGRES_15 \
-  --tier=db-g1-small \
+  --database-version=POSTGRES_14 \
+  --tier=db-custom-1-3840 \
   --storage-type=HDD \
   --storage-size=10 \
   --storage-auto-increase \
