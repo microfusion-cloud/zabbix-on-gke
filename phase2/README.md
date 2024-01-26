@@ -173,6 +173,12 @@ DISK_NAME=pvc-snmp
 gcloud compute disks create $DISK_NAME --project=$GOOGLE_CLOUD_PROJECT \
   --type=pd-balanced --size=30GB --region=$REGION \
   --replica-zones=projects/$GOOGLE_CLOUD_PROJECT/zones/$REGION-c,projects/$GOOGLE_CLOUD_PROJECT/zones/$REGION-b
+
+DISK_NAME1=pvc-snmp1
+
+gcloud compute disks create $DISK_NAME1 --project=$GOOGLE_CLOUD_PROJECT \
+  --type=pd-balanced --size=30GB --region=$REGION \
+  --replica-zones=projects/$GOOGLE_CLOUD_PROJECT/zones/$REGION-c,projects/$GOOGLE_CLOUD_PROJECT/zones/$REGION-b
 ```
 
 #### 使用 [yq](https://github.com/mikefarah/yq) 替換 pv 模板

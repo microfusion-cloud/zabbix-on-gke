@@ -59,6 +59,15 @@ spec:
               value: "60"
           ports:
             - containerPort: 10051
+          resources:
+            limits:
+              cpu: "500m"
+              ephemeral-storage: 1Gi
+              memory: 1Gi
+            requests:
+              cpu: "500m"
+              ephemeral-storage: 1Gi
+              memory: 1Gi
         - name: zabbix-agent
           image: zabbix/zabbix-agent2:alpine-6.4-latest
           env:
@@ -70,6 +79,15 @@ spec:
               value: 127.0.0.1:10051
             - name: ZBX_PASSIVE_ALLOW
               value: "false"
+          resources:
+            limits:
+              cpu: "500m"
+              ephemeral-storage: 1Gi
+              memory: 1Gi
+            requests:
+              cpu: "500m"
+              ephemeral-storage: 1Gi
+              memory: 1Gi
         - name: zabbix-snmptraps
           image: zabbix/zabbix-snmptraps:alpine-6.4-latest
           ports:
@@ -77,6 +95,15 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/zabbix/snmptraps
               name: pvc-snmp
+          resources:
+            limits:
+              cpu: "500m"
+              ephemeral-storage: 1Gi
+              memory: 1Gi
+            requests:
+              cpu: "500m"
+              ephemeral-storage: 1Gi
+              memory: 1Gi
         - name: cloud-sql-proxy
           # It is recommended to use the latest version of the Cloud SQL Auth Proxy
           # Make sure to update on a regular schedule!
@@ -103,11 +130,16 @@ spec:
               # The proxy's memory use scales linearly with the number of active
               # connections. Fewer open connections will use less memory. Adjust
               # this value based on your application's requirements.
-              memory: "2Gi"
+              memory: "1Gi"
               # The proxy's CPU use scales linearly with the amount of IO between
               # the database and the application. Adjust this value based on your
               # application's requirements.
-              cpu: "1"
+              cpu: "500m"
+              ephemeral-storage: 1Gi
+            limits:
+              cpu: 500m
+              ephemeral-storage: 1Gi
+              memory: 1Gi
   volumeClaimTemplates:
     - metadata:
         name: pvc-snmp
