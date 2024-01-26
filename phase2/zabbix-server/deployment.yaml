@@ -5,7 +5,7 @@ metadata:
   namespace: zabbix
 spec:
   serviceName: zabbix-server
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: zabbix-server
@@ -14,16 +14,16 @@ spec:
       labels:
         app: zabbix-server
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: topology.kubernetes.io/zone
-                    operator: In
-                    values:
-                      - asia-east1-b
-                      - asia-east1-c
+      # affinity:
+      #   nodeAffinity:
+      #     requiredDuringSchedulingIgnoredDuringExecution:
+      #       nodeSelectorTerms:
+      #         - matchExpressions:
+      #             - key: topology.kubernetes.io/zone
+      #               operator: In
+      #               values:
+      #                 - asia-east1-b
+      #                 - asia-east1-c
       serviceAccountName: ksa-cloudsqlproxy
       containers:
         - name: zabbix-server
@@ -48,15 +48,28 @@ spec:
                   key: database
             - name: ZBX_ENABLE_SNMP_TRAPS
               value: "true"
+            # HA Mode
+            - name: ZBX_AUTOHANODENAME
+              value: "fqdn"
+            - name: ZBX_AUTONODEADDRESS
+              value: "fqdn"
+            - name: ZBX_SERVICEMANAGERSYNCFREQUENCY
+              value: "10"
+            - name: ZBX_PROBLEMHOUSEKEEPINGFREQUENCY
+              value: "60"
           ports:
             - containerPort: 10051
         - name: zabbix-agent
           image: zabbix/zabbix-agent2:alpine-6.4-latest
           env:
             - name: ZBX_HOSTNAME
-              value: zabbix-server
-            - name: ZBX_SERVER_HOST
-              value: 127.0.0.1
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name # Get pod name
+            - name: ZBX_ACTIVESERVERS
+              value: 127.0.0.1:10051
+            - name: ZBX_PASSIVE_ALLOW
+              value: "false"
         - name: zabbix-snmptraps
           image: zabbix/zabbix-snmptraps:alpine-6.4-latest
           ports:
@@ -68,13 +81,16 @@ spec:
           # It is recommended to use the latest version of the Cloud SQL Auth Proxy
           # Make sure to update on a regular schedule!
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.5.0 # make sure to use the latest version
+          env:
+            - name: INSTANCE_CONNECTION
+              value: gcpsa-sandbox:asia-east1:zabbix-instance
           args:
             # If connecting from a VPC-native GKE cluster, you can use the
             # following flag to have the proxy connect over private IP
             - --private-ip
             # Replace DB_PORT with the port the proxy should listen on
             - --port=5432
-            - gcpsa-sandbox:asia-east1:zabbix-instance
+            - $(INSTANCE_CONNECTION)
           securityContext:
             # The default Cloud SQL Auth Proxy image runs as the
             # "nonroot" user and group (uid: 65532) by default.

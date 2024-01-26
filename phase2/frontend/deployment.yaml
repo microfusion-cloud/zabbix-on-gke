@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: zabbix-frontend
+  namespace: zabbix
 spec:
   replicas: 1
   selector:
@@ -18,7 +19,7 @@ spec:
         image: zabbix/zabbix-web-nginx-pgsql:alpine-6.4-latest
         env:
         - name: ZBX_SERVER_HOST
-          value: zabbix-server.default.svc.cluster.local
+          value: zabbix-server.zabbix.svc.cluster.local
         - name: DB_SERVER_HOST
           value: 127.0.0.1
         - name: POSTGRES_USER
@@ -42,13 +43,16 @@ spec:
         # It is recommended to use the latest version of the Cloud SQL Auth Proxy
         # Make sure to update on a regular schedule!
         image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.5.0 # make sure to use the latest version
+        env:
+          - name: INSTANCE_CONNECTION
+            value: gcpsa-sandbox:asia-east1:zabbix-instance
         args:
           # If connecting from a VPC-native GKE cluster, you can use the
           # following flag to have the proxy connect over private IP
           - --private-ip
           # Replace DB_PORT with the port the proxy should listen on
           - --port=5432
-          - gcpsa-sandbox:asia-east1:zabbix-instance
+          - $(INSTANCE_CONNECTION)
         securityContext:
           # The default Cloud SQL Auth Proxy image runs as the
           # "nonroot" user and group (uid: 65532) by default.

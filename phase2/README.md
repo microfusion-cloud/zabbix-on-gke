@@ -119,7 +119,7 @@ gcloud sql users create $DB_USER \
 ```bash
 DB_SECRET=zabbix-secret
 
-kubectl create secret generic $DB_SECRET \
+kubectl create secret generic --namespace=zabbix $DB_SECRET \
   --from-literal=username=$DB_USER \
   --from-literal=password=${DB_PASS} \
   --from-literal=database=zabbix
@@ -137,7 +137,7 @@ ref: https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#au
 
 建立 KSA
 ```bash
-kubectl create serviceaccount ksa-cloudsqlproxy
+kubectl create serviceaccount -n=zabbix ksa-cloudsqlproxy 
 ```
 
 建立 GSA 並給予 Cloud SQL Client 角色
@@ -154,12 +154,12 @@ gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
 ```bash
 gcloud iam service-accounts add-iam-policy-binding cloudsqlproxy@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com \
     --role roles/iam.workloadIdentityUser \
-    --member serviceAccount:$GOOGLE_CLOUD_PROJECT.svc.id.goog[default/ksa-cloudsqlproxy]
+    --member serviceAccount:$GOOGLE_CLOUD_PROJECT.svc.id.goog[zabbix/ksa-cloudsqlproxy]
 ```
 
 建立註解
 ```bash
-kubectl annotate serviceaccount ksa-cloudsqlproxy \
+kubectl annotate serviceaccount --namespace=zabbix ksa-cloudsqlproxy \
     iam.gke.io/gcp-service-account=cloudsqlproxy@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com
 ```
 

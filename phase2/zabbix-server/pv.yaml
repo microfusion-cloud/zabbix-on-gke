@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-snmp
+  name: pv-snmp-0
 spec:
   storageClassName: "standard-rwo"
   capacity:
@@ -13,5 +13,23 @@ spec:
     name: pvc-snmp-zabbix-server-0 #pvc-snmp
   csi:
     driver: pd.csi.storage.gke.io
-    volumeHandle: projects/[PROJECT]/regions/[REGION]/disks/[DISK]
+    volumeHandle: projects/gcpsa-sandbox/regions/asia-east1/disks/pvc-snmp
+    fsType: ext4
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-snmp-1
+spec:
+  storageClassName: "standard-rwo"
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    namespace: default
+    name: pvc-snmp-zabbix-server-1 #pvc-snmp
+  csi:
+    driver: pd.csi.storage.gke.io
+    volumeHandle: projects/gcpsa-sandbox/regions/asia-east1/disks/pvc-snmp1
     fsType: ext4
